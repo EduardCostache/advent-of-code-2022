@@ -1,3 +1,5 @@
+import time
+
 filename = 'advent-of-code-2022\Day 4\input.txt'
 
 
@@ -89,11 +91,13 @@ def part2(lines):
         #total += 1
         # Answer = 839
 
-        if doesOverlapNoSet(x1, x2, y1, y2):
+        if doesOverlap(x1, x2, y1, y2):
             total += 1
 
     return total
 
 
 # print(part1(lines))
+timeStart = time.time()
 print(part2(lines))
+print(f"Runtime: {time.time() - timeStart}s")
