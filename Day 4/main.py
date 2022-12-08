@@ -61,12 +61,35 @@ def doesOverlap(x1, x2, y1, y2):
     return False
 
 
+def doesOverlapNoSet(x1, x2, y1, y2):
+    end = max(x2, y2)
+
+    listX = [False] * end
+    listY = [False] * end
+
+    for x in range(x1-1, x2):
+        listX[x] = True
+
+    for y in range(y1-1, y2):
+        listY[y] = True
+
+    for index in range(0, end):
+        if listX[index] and listY[index]:
+            return True
+
+    return False
+
+
 def part2(lines):
     total = 0
     for line in lines:
         x1, x2, y1, y2 = splitRanges(line)
 
-        if doesOverlap(x1, x2, y1, y2):
+        # if doesOverlap(x1, x2, y1, y2):
+        #total += 1
+        # Answer = 839
+
+        if doesOverlapNoSet(x1, x2, y1, y2):
             total += 1
 
     return total
