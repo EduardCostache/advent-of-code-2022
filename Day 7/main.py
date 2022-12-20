@@ -1,7 +1,7 @@
 import time
 
-FILENAME = 'advent-of-code-2022\Day 7\input.txt'
-TEST_FILE = 'advent-of-code-2022\Day 7\\test.txt'
+FILENAME = 'Day 7\input.txt'
+TEST_FILE = 'Day 7\\test.txt'
 currentDirectory = []
 allDirectories = {
     '/': 0
@@ -31,40 +31,46 @@ def part1():
 
         if line[0] == '$':
             if line[1] == "cd":
-                if line[2] != "..":
-                    currentDirectory.append(line[2])
-
-                else:
+                if line[2] == "..":
                     currentDirectory.pop()
-
+                else:
+                    currentDirectory.append(line[2])
+                    allDirectories.update({"_".join(currentDirectory) : 0})
             else:
-                continue
+                continue # if the command is 'ls' we ignore it and move on
         elif line[0] == "dir":
-            if line[1] not in allDirectories.keys():
-                allDirectories.update({line[1]: 0})
-            else:
-                continue
+            continue
         else:
             size = int(line[0])
-
-            for directory in currentDirectory:
+            for i in range(0, len(currentDirectory)):
+                directory = "_".join(currentDirectory[0:i+1])
                 allDirectories[directory] += size
 
-    # print(allDirectories)
-
     for directory in allDirectories:
-
         size = allDirectories[directory]
-        # print(size)
-        if size <= 100000:
+        if size <= 100_000:
             totalSum += size
-            print(f"{directory} : {size}")
 
-    print(totalSum)
+    print(f"Part 1: {totalSum}")
 
 
 def part2():
-    pass
+    part1()
 
+    totalUsedSpace = allDirectories['/']
+    totalUnUsedSpace = 70_000_000 - totalUsedSpace
+    requiredSpace = 30_000_000 - totalUnUsedSpace 
 
-part1()
+    sortedSizes = []
+
+    for size in allDirectories.values():
+        if size >= requiredSpace:
+            sortedSizes.append(size)
+
+    sortedSizes.sort()
+
+    print(f"Part 2: {sortedSizes[0]}")
+
+timeStart = time.time()
+part2()
+print(f"Runtime: {round((time.time() - timeStart) * 1000, 1)}ms")
