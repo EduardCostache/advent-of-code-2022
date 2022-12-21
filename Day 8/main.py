@@ -40,7 +40,7 @@ def isVisible(x, y, length):
         if int(grid[i][y]) >= tree:
             up = True
     
-    return left and right and up and down
+    return left & right & up & down
 
 def getScore(x, y, length):
     tree = int(grid[x][y])
@@ -48,35 +48,26 @@ def getScore(x, y, length):
 
     # Check left
     for i in reversed(range(0,y)):
-        if int(grid[x][i]) < tree:
-            scores[0] += 1
-        else:
-            scores[0] += 1
+        scores[0] += 1
+        if int(grid[x][i]) >= tree:
             break
 
     # Check right
     for i in range(y+1, length):
-        if int(grid[x][i]) < tree:
-            scores[1] += 1
-        else:
-            scores[1] += 1
+        scores[1] += 1
+        if int(grid[x][i]) >= tree:
             break
 
     # Check down
     for i in range(x+1, length):
-        if int(grid[i][x]) < tree:
-            scores[2] += 1
-        else:
-            scores[2] += 1
-            break
+        scores[2] += 1
+        if int(grid[i][y]) >= tree:
             break
 
     # Check up
-    for i in reversed(range(0, y)):
-        if int(grid[i][x]) < tree:
-            scores[3] += 1
-        else:
-            scores[3] += 1
+    for i in reversed(range(0,x)):
+        scores[3] += 1
+        if int(grid[i][y]) >= tree:
             break
 
     return scores[0] * scores[1] * scores[2] * scores[3]
