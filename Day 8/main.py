@@ -19,28 +19,48 @@ grid = openFile(FILENAME)
 
 def isVisible(x, y, length):
     tree = int(grid[x][y])
-    left, right, down, up = False, False, False, False
+    check = False
+
     # Check left
-    for i in range(0,y):
+    for i in reversed(range(0,y)):
         if int(grid[x][i]) >= tree:
-            left = True
+            check = True
+            break
+    
+    if check == False:
+        return 1
+    check = False
 
     # Check right
     for i in range(y+1, length):
         if int(grid[x][i]) >= tree:
-            right = True
+            check = True
+            break
+    
+    if check == False:
+        return 1
+    check = False
 
     # Check down
-    for i in range(0, x):
-        if int(grid[i][y]) >= tree:
-            down = True
-
-    # Check up
     for i in range(x+1, length):
         if int(grid[i][y]) >= tree:
-            up = True
+            check = True
+            break
     
-    return left & right & up & down
+    if check == False:
+        return 1
+    check = False
+
+    # Check up
+    for i in reversed(range(0,x)):
+        if int(grid[i][y]) >= tree:
+            check = True
+            break
+    
+    if check == False:
+        return 1
+
+    return 0
 
 def getScore(x, y, length):
     tree = int(grid[x][y])
@@ -78,11 +98,7 @@ def part1():
     
     for x in range(1,length-1):
         for y in range(1, length-1):
-            if grid[x][y] == 0:
-                continue
-            else:
-                if not isVisible(x, y, length):
-                    totalVisibleTrees += 1
+            totalVisibleTrees += isVisible(x, y, length)
 
     print(f"Part 1 : {totalVisibleTrees}")
 
