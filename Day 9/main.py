@@ -16,68 +16,66 @@ tailVisitedCoordinates = {
     (0,0)
 }
 
-def calculateDistance(hx, hy, tx, ty):
-    diffX = tx - hx
-    diffY = ty - hy
+
+def calculateDistance(hPos, tPos):
+    diffX = hPos[0] - tPos[0]
+    diffY = hPos[1] - tPos[1]
 
     sqrs = (diffX**2) + (diffY**2)
 
-    return sqrt(sqrs)
-
-def updateCoords(hx, hy, tx, ty, prevHX, prevHY):
-    pass
+    return sqrt(sqrs) >= 2.0
 
 def part1():
-    hx, hy = 0,0
-    tx, ty = 0,0
+    hPos = [0,0] #x, y
+    tPos = [0,0] #x, y
 
-    prevHX, prevHY = 0,0
-
-
+    prevHPos = [0,0] #x, y
 
     for move in moves:
+        move = move.split(' ')
         direction = move[0]
-        speed = int(move[2])
-
-        prevHX, prevHY = hx, hy
+        distance = int(move[1])
 
         if direction == 'R':
-            for _ in range(speed):
-                prevHX, prevHY = hx, hy
-                hx += 1
-                if calculateDistance(hx, hy, tx, ty) >= 2.0:
-                    tx, ty = prevHX, prevHY
-                    tailVisitedCoordinates.add((tx, ty))
-                print(f"Head: {hx},{hy}   Tail: {tx},{ty}")
+            for _ in range(distance):
+                prevHPos = hPos.copy()
+                hPos[0] += 1
+                if calculateDistance(hPos, tPos):
+                    tPos = prevHPos.copy()
+                    tailVisitedCoordinates.add((tPos[0], tPos[1]))
+                    
+
         elif direction == 'L':
-            for _ in range(speed):
-                prevHX, prevHY = hx, hy
-                hx -= 1
-                if calculateDistance(hx, hy, tx, ty) >= 2.0:
-                    tx, ty = prevHX, prevHY
-                    tailVisitedCoordinates.add((tx, ty))
-                print(f"Head: {hx},{hy}   Tail: {tx},{ty}")
+            for _ in range(distance):
+                prevHPos = hPos.copy()
+                hPos[0] -= 1
+                if calculateDistance(hPos, tPos):
+                    tPos = prevHPos.copy()
+                    tailVisitedCoordinates.add((tPos[0], tPos[1]))
+                    
+
         elif direction == 'U':
-            for _ in range(speed):
-                prevHX, prevHY = hx, hy
-                hy += 1
-                if calculateDistance(hx, hy, tx, ty) >= 2.0:
-                    tx, ty = prevHX, prevHY
-                    tailVisitedCoordinates.add((tx, ty))
-                print(f"Head: {hx},{hy}   Tail: {tx},{ty}")
-        elif direction == 'D':
-            for _ in range(speed):
-                prevHX, prevHY = hx, hy
-                hy -= 1
-                if calculateDistance(hx, hy, tx, ty) >= 2.0:
-                    tx, ty = prevHX, prevHY
-                    tailVisitedCoordinates.add((tx, ty))
-                print(f"Head: {hx},{hy}   Tail: {tx},{ty}")
-        
-    print(len(tailVisitedCoordinates))
+            for _ in range(distance):
+                prevHPos = hPos.copy()
+                hPos[1] += 1
+                if calculateDistance(hPos, tPos):
+                    tPos = prevHPos.copy()
+                    tailVisitedCoordinates.add((tPos[0], tPos[1]))
+                    
+
+        else: #move down
+            for _ in range(distance):
+                prevHPos = hPos.copy()
+                hPos[1] -= 1
+                if calculateDistance(hPos, tPos):
+                    tPos = prevHPos.copy()
+                    tailVisitedCoordinates.add((tPos[0], tPos[1]))
+                    
+
+    return len(tailVisitedCoordinates)
         
 
 def part2():
     pass
 
-part1()
+print(part1())
