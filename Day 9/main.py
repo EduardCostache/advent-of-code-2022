@@ -18,12 +18,14 @@ tailVisitedCoordinates = {
 
 
 def calculateDistance(hPos, tPos):
-    diffX = hPos[0] - tPos[0]
-    diffY = hPos[1] - tPos[1]
+    #diffX = hPos[0] - tPos[0]
+    #diffY = hPos[1] - tPos[1]
 
-    sqrs = (diffX**2) + (diffY**2)
+    #sqrs = (diffX**2) + (diffY**2)
 
-    return sqrt(sqrs) >= 2.0
+    #return sqrt(sqrs) >= 2.0
+
+    return abs(hPos[0] - tPos[0]) > 1 or abs(hPos[1] - tPos[1]) > 1
 
 def part1():
     hPos = [0,0] #x, y
@@ -44,7 +46,6 @@ def part1():
                     tPos = prevHPos.copy()
                     tailVisitedCoordinates.add((tPos[0], tPos[1]))
                     
-
         elif direction == 'L':
             for _ in range(distance):
                 prevHPos = hPos.copy()
@@ -53,7 +54,6 @@ def part1():
                     tPos = prevHPos.copy()
                     tailVisitedCoordinates.add((tPos[0], tPos[1]))
                     
-
         elif direction == 'U':
             for _ in range(distance):
                 prevHPos = hPos.copy()
@@ -62,7 +62,6 @@ def part1():
                     tPos = prevHPos.copy()
                     tailVisitedCoordinates.add((tPos[0], tPos[1]))
                     
-
         else: #move down
             for _ in range(distance):
                 prevHPos = hPos.copy()
@@ -78,4 +77,6 @@ def part1():
 def part2():
     pass
 
+timeStart = time.time()
 print(part1())
+print(f"Runtime: {round((time.time() - timeStart) * 1000, 1)}ms")
